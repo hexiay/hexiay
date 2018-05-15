@@ -61,3 +61,30 @@ public:
         inorder(node->right, m, mx);
     }
 };
+/*
+题目中的follow up说了让我们不用除了递归中的隐含栈之外的额外空间，那么我们就不能用哈希表了，不过这也不难，由于是二分搜索树，那么我们中序遍历出来的结果就是有序的，这样我们只要比较前后两个元素是否相等，就等统计出现某个元素出现的次数，因为相同的元素肯定是都在一起的。我们需要一个结点变量pre来记录上一个遍历到的结点，然后mx还是记录最大的次数，cnt来计数当前元素出现的个数，我们在中序遍历的时候，如果pre不为空，说明当前不是第一个结点，我们和之前一个结点值比较，如果相等，cnt自增1，如果不等，cnt重置1。如果此时cnt大于了mx，那么我们清空结果res，并把当前结点值加入结果res，如果cnt等于mx，那我们直接将当前结点值加入结果res，然后mx赋值为cnt。最后我们要把pre更新为当前结点，参见代码如下：
+*/
+class Solution {
+public:
+    vector<int> findMode(TreeNode* root) {
+        vector<int> res;
+        int mx = 0, cnt = 1;
+        TreeNode *pre = NULL;
+        inorder(root, pre, cnt, mx, res);
+        return res;
+    }
+    void inorder(TreeNode* node, TreeNode*& pre, int& cnt, int& mx, vector<int>& res) {
+        if (!node) return;
+        inorder(node->left, pre, cnt, mx, res);
+        if (pre) {
+            cnt = (node->val == pre->val) ? cnt + 1 : 1;
+        }
+        if (cnt >= mx) {
+            if (cnt > mx) res.clear();
+            res.push_back(node->val);
+            mx = cnt;
+        } 
+        pre = node;
+        inorder(node->right, pre, cnt, mx, res);
+    }
+};
