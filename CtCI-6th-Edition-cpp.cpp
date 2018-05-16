@@ -38,7 +38,6 @@ void rotate1(int ** matrix, int N) {
 	}
 }
 
-
 void rotate2( int ** matrix, int N ) {
 	for( int i = 0; i < N/2; ++i ) {
 		for( int j = i; j < N-i-1; ++j ) {
@@ -59,7 +58,6 @@ void printMatrix( int ** matrix, int N) {
 		std::cout << std::endl;
 	}
 }
-
 
 int main() {
 	int N;
@@ -111,12 +109,9 @@ int main() {
  *    string.
  */
 
-
-
 #include <iostream>
 #include <string>
 #include <cmath>
-
 
 bool oneEditAway( const std::string & str1, const std::string & str2 )
 {
@@ -128,7 +123,7 @@ bool oneEditAway( const std::string & str1, const std::string & str2 )
     int len2 = str2.length();
     std::string smaller = len1 < len2 ? str1 : str2;
     std::string bigger =  len1 < len2 ? str2 : str1;
-    
+
     unsigned int i = 0, j = 0; 
     bool mismatchDone = false;
     while ( i < smaller.length() && j < bigger.length() )
@@ -148,7 +143,6 @@ bool oneEditAway( const std::string & str1, const std::string & str2 )
     }
     return true;
 }
-
 
 void translate( bool result, const std::string str1, const std::string str2 )
 {
@@ -180,7 +174,6 @@ int main()
 
 #include <iostream>
 #include <string>
-
 
 std::string compress(std::string str)
 {
@@ -240,7 +233,6 @@ int main()
 
 #include <iostream>
 
-
 /*
  * Helper routine to return an frequency Table index
  *
@@ -279,7 +271,6 @@ void countFrequency( const std::string & str, int *frequency )
     }
 }
 
-
 /*
  * Function : isPermutePallindrome 
  * Args     : input string
@@ -306,7 +297,6 @@ bool isPermutationOfPallindrome1( const std::string & str )
     }
     return true;
 }
-
 
 /*
  * Approach 2:
@@ -404,14 +394,12 @@ int main()
     std::cout << "Approach 2:" << isPermutationOfPallindrome2( str ) << std::endl;
     std::cout << "Approach 3:" << isPermutationOfPallindrome3( str ) << std::endl;
 
-
     std::string str1("A big Cat");
     std::cout << "Does \"" << str1 << "\" has a string whose permutation is a pallindrome? "
               << "( 1 for true, 0 for false ) : ";
     std::cout << "Approach 1:" << isPermutationOfPallindrome1( str1 ) << std::endl;
     std::cout << "Approach 2:" << isPermutationOfPallindrome2( str1 ) << std::endl;
     std::cout << "Approach 3:" << isPermutationOfPallindrome3( str1 ) << std::endl;
-
 
     std::string str2("Aba cbc");
     std::cout << "Does \"" << str2 << "\" has a string whose permutation is a pallindrome? "
@@ -444,7 +432,6 @@ int getCharNumber(const char & c){
     return -1;
 }
 
-
 vector <int> buildCharFrequencyTable(string phrase){
     vector <int> table(getCharNumber('z') - getCharNumber('a') + 1, 0);
     for(char &c : phrase){
@@ -455,7 +442,6 @@ vector <int> buildCharFrequencyTable(string phrase){
     }
     return table;
 }
-
 
 bool checkMaxOneOdd(vector<int> &table)
 {
@@ -591,7 +577,6 @@ void nullifyCol( int ** matrix, int M, int col ) {
 	}
 }
 
-
 void nullifyMatrix( int ** matrix, int M, int N ) {
 	bool firstRow = false;
 
@@ -640,7 +625,6 @@ void printMatrix( int ** matrix, int M, int N ) {
 	}
 	std::cout << std::endl;
 }
-
 
 int main()
 {
@@ -706,7 +690,7 @@ bool isUniqueChars_bitvector(const string &str) {
 	return true;
 }
 bool isUniqueChars_noDS( string str) {
-	
+
 	sort(str.begin(), str.end()); // O(nlogn) sort from <algorithm>
 
 	bool noRepeat = true;
@@ -766,7 +750,7 @@ void urlify(char *str, int len)
             ++numOfSpaces;
         }
     }
-    
+
     int extendedLen  = len + 2 * numOfSpaces;
     i = extendedLen - 1;
     for( j = len - 1; j >= 0; --j ) {
@@ -849,7 +833,7 @@ bool isOneAway(string s1, string s2){
 	len2 = b.length();
 	if(abs(len1-len2)>1)
 		return false;
-	
+
 	bool flag = false;
 	for(int i=0,j=0;i<len1 && j<len2;){
 		if(a[i]!=b[j]){
@@ -925,7 +909,6 @@ void printList( Node * head ) {
   std::cout << "nullptr" << std::endl;
 }
 
-
  /* We start with a new list. Elements bigger than the pivot element are put at the tail list
  and elements smaller are put at the head list*/
 Node * partition( Node * listhead , int x ) {
@@ -959,10 +942,6 @@ Node * partition( Node * listhead , int x ) {
    tail->next = nullptr;
    return headInitial;
  }
-
-
-
-
 
 int main() {
   Node * head = nullptr;
@@ -1005,7 +984,6 @@ struct Node {
   Node * next;
   Node(int d) : data{ d }, next{ nullptr } { }
 };
-
 
 /**
  * Insert to the head of the list
@@ -1108,8 +1086,6 @@ Node * kthToLastIterative( Node * head, int k ) {
   return ptr2;
 }
 
-
-
 int main() {
   Node * head = nullptr;
   for ( int i = 7; i > 0; i-- ) {
@@ -1182,7 +1158,6 @@ void printList( Node * head ) {
   std::cout << "nullptr" << std::endl;
 }
 
-
 /**
  * [reversedList helper routine to reverse a list]
  * @param  head [head of current list]
@@ -1203,7 +1178,6 @@ void reverse( Node * & head ) {
   }
   head = newHead;
 }
-
 
 /**
  * [isPallindromeIter1 - Iteratively determine if list is palindrome using reversing the list]
@@ -1231,7 +1205,6 @@ bool isPalindromeIter1( Node * head ) {
   if ( ptr1 && ptr1->next == nullptr ) {
     ptr2 = ptr2->next;
   }
-
 
   //reverse the second half of the list
   reverse(ptr2);
@@ -1299,7 +1272,6 @@ bool isPalindromeIter2( Node * head ) {
   return true;
 }
 
-
 /**
  * [isPalindromeRecurHelper - Recursive approach to determine if list is palindrome]
  * Idea is to use two pointers left and right, we move left and right to reduce
@@ -1338,7 +1310,6 @@ bool isPalindromeRecurHelper( Node * & left, Node * right ) {
 bool isPalindromeRecur( Node * head ) {
   return isPalindromeRecurHelper(head, head);
 }
-
 
 int main()
 {
@@ -1444,8 +1415,6 @@ bool detectAndRemoveCycle( Node * head )
   return false;
 }
 
-
-
 void insert( Node * & head, int data )
 {
   Node * newNode = new Node( data );
@@ -1468,7 +1437,6 @@ void printList( Node * head )
   }
   std::cout << "NULL" << std::endl;
 }
-
 
 int main()
 {
@@ -1563,7 +1531,6 @@ Node * intersectionPoint( Node * head1, Node * head2 )
   return nullptr;
 }
 
-
 int main()
 {
   Node * list1 = new Node(3);
@@ -1598,11 +1565,9 @@ int main()
  * Approach 2: Use a hash table, space complexity O(n), time complexity O(n)
  */
 
-
 #include <iostream>
 #include <unordered_map>
 #include <random>
-
 
 struct Node {
 	int data = 0;
@@ -1647,7 +1612,6 @@ static inline int random_range(const int min, const int max) {
 	std::uniform_int_distribution<int> distribution(min, max);
 	return distribution(mt);
 }
-
 
 // Method 1
 //space complexity O(1)
@@ -1701,8 +1665,6 @@ void removeDuplicates1( Node * head ) {
 		}
 	}
 }
-
-
 
 int main() {
 	std::cout << "Method 1 : \n";
@@ -2381,7 +2343,6 @@ public:
     {
     };
 
-
 private:
 
     void shiftLeftTo(int index)
@@ -2445,7 +2406,6 @@ public:
     {
     };
 
-
 private:
 
     void shiftLeftTo(int index)
@@ -2466,7 +2426,6 @@ private:
 
     std::deque<T> stacks;
 };
-
 
 // Forbid capacity 0
 template <typename T>
@@ -2919,7 +2878,6 @@ int Stack::getSize() const
   return stackSize;
 }
 
-
 /*===================================================*/
 /*  ./Chapter-3-Stacks-and-Queues/3.2-Stack-Min/StackNode.cpp  */
 #include "StackNode.h"
@@ -2951,7 +2909,7 @@ public:
 
   bool isEmpty() const;
   int getSize() const;
-  
+
 private:
   StackNode *head;
   int stackSize;
@@ -3075,7 +3033,7 @@ bool Graph::isRoute(int x, int y){
 }
 
 int main(){
-	
+
     Graph g(6);	
     g.addEdge(5, 2);
     g.addEdge(5, 0);
@@ -3226,7 +3184,6 @@ public:
     }
 };
 
-
 int main()
 {
     std::srand (unsigned(std::time(0)));
@@ -3277,7 +3234,7 @@ bool checkSubtree(const Tree<T> &tree, const Tree<T> &subtree)
     if (!subtreeRoot)
         return true; // empty subtree
     auto subtreeRootValue = subtreeRoot->getValue();
-    
+
     for (const auto &node : tree)
     {
         if (node->getValue() == subtreeRootValue)
@@ -3650,7 +3607,7 @@ int main()
 {
     test(TestUtils::createGraph<States>({"a", "b", "c", "d", "e", "f"},
         {{"a", "d"}, {"f", "b"}, {"b", "d"}, {"f", "a"}, {"d", "c"}}));
-    
+
     test(TestUtils::createGraph<States>({"a", "b", "c", "d", "e", "f", "g"},
         {{"a", "e"}, {"b", "a"}, {"b", "e"}, {"c", "a"}, {"d", "g"}, {"f", "a"}, {"f", "b"}, {"f", "c"}}));
 }
@@ -3771,7 +3728,7 @@ int getHeight(const NodePtr<int> &node)
     int rightH = getHeight<T>(node->getRight());
     if (rightH == -1)
         return -1;
-    
+
     if (std::abs(leftH - rightH) > 1)
         return -1;
     return std::max(leftH, rightH) + 1;
@@ -4214,7 +4171,7 @@ NodePtr<T> findCommonAncestor(const Tree<T> &tree, const NodePtr<T> &one, const 
 {
     if (one == two)
         return one;
-    
+
     auto startNode = tree.getRoot();
 
     auto firstResult = findNodeFrom<T>(startNode, one);
@@ -4307,7 +4264,6 @@ std::list<Node<int>> buildOrder(const Graph<int> &graph)
         order.clear();
     return order;
 }
-
 
 void test(const Graph<int> &graph)
 {
@@ -4805,10 +4761,9 @@ void crossOff(std::vector<bool> &flags, int prime)
 
 		while (prime <= sqrt(max))
 		{
-			   
+
 			crossOff(flags, prime);
 
-			
 			prime = getNextPrime(flags, prime);
 		}
 
@@ -5027,7 +4982,6 @@ public:
 		return suit_Renamed;
 	}
 
-	
 	virtual bool isAvailable()
 	{
 		return available;
@@ -5082,23 +5036,23 @@ int main()
 void printPerms(string remainder, string prefix)
 {
   long length = remainder.length();
-  
+
   if (!length) cout << prefix << endl;
-  
+
   bool dup[128];
-  
+
   memset(dup, false, sizeof(bool) * 128);
-  
+
   for (int i = 0; i < length; ++i)
   {
     if (dup[remainder.at(i)]) continue;
-    
+
     string str1 = i == 0 ? "" : remainder.substr(0,i);
-    
+
     string str2 = i == length - 1 ? "" : remainder.substr(i+1,length);
-    
+
     printPerms(str1 + str2, prefix + remainder.at(i));
-  
+
     dup[remainder.at(i)] = true;
   }
 }
@@ -5155,49 +5109,46 @@ struct Point {
     Point(int r, int c) : row(r), column(c) {}
 };
 
-
-
 //////////////////////////////////////////////////////
 //Implementation with memoization/caching
 //////////////////////////////////////////////////////
 
 //Checks if path is valid and simultaneously adds position to a result vector
 bool getPath(int** matrix, int currRow, int currColumn, vector<Point*>& path, unordered_set<Point*>& duplicateVisits){
-    
+
     //if out of bounds or curr position is off limits, return false
     if (currRow < 0 || currColumn < 0 || matrix[currRow][currColumn] == -1){
         return false;
     }
-    
+
     Point* currPos = new Point(currRow, currColumn);
-    
+
     //If we have already visited this position, then return false
     if (duplicateVisits.find(currPos) != duplicateVisits.end()){
         return false;
     }
-    
-    
+
     bool atOrigin = currRow == 0 && currColumn == 0;
-    
+
     //Everytime robot moves up or left and it is a valid position, add the point to result vector
     if (atOrigin || getPath(matrix, currRow-1, currColumn, path, duplicateVisits) || getPath(matrix, currRow, currColumn-1, path, duplicateVisits)){
         path.push_back(currPos);
         return true;
     }
-    
+
     //Keep track of already visited points
     duplicateVisits.insert(currPos);
-    
+
     return false;
 }
 
 vector<Point*> getPath(int** matrix, int rows, int columns){
     //create result vector
     vector<Point*> path;
-    
+
     //create unordered set to keep track of already visited points
     unordered_set<Point*> duplicateVisits;
-    
+
     //Bounds checking
     if (rows != 0 || matrix != nullptr){
         //Start checking positions from bottom right to top left
@@ -5207,15 +5158,12 @@ vector<Point*> getPath(int** matrix, int rows, int columns){
     }
     //Return an empty vector indicating path does not exist
     return path;
-    
-}
 
+}
 
 //////////////////////////////////////////////////////
 //Implementation without memoization/caching
 //////////////////////////////////////////////////////
-
-
 
 //Checks if path is valid and simultaneously adds position to a result vector
 //bool getPath(int** matrix, int currRow, int currColumn, vector<Point*>& path){
@@ -5258,7 +5206,6 @@ vector<Point*> getPath(int** matrix, int rows, int columns){
 // 
 //}
 
-
 int** createMatrix(int rows, int columns){
     //initialize number of rows
     int** matrix = new int*[rows];
@@ -5273,11 +5220,11 @@ int** createMatrix(int rows, int columns){
         }
     }
     return matrix;
-    
+
 }
 
 int main() {
-    
+
     //create a 5x7 matrix (5 rows and 7 columns)
     int** matrix = createMatrix(5, 7);
     //set specific points as off-limits
@@ -5285,18 +5232,17 @@ int main() {
     matrix[2][5] = -1;
     matrix[3][2] = -1;
     matrix[0][1] = -1;
-    
-    
+
     vector<Point*> path = getPath(matrix, 5, 7);
     if (path.size() == 0){
         cerr << "Path does not exist!" << endl;
-        
+
     }
     else {
         for (int i = 0; i < path.size(); ++i){
             cout << "[" << path[i]->row << "]" << "[" << path[i]->column << "]" << endl;
         }
-        
+
     }
 
 }
@@ -5362,58 +5308,58 @@ vector<deque<char>> * print_all_parentheses_internal(size_t count)
     deque<char> d;
     d.push_back('(');
     d.push_back(')');
-    
+
     vector<deque<char>> * v = new vector<deque<char>>();
-    
+
     v->push_back(d);
-    
+
     return v;
   }
-  
+
   vector<deque<char>> * v = print_all_parentheses_internal(count - 1);
-  
+
   long size = v->size();
-  
+
   for (int i = 0; i < size; ++i)
   {
     deque<char> tmp1 = v->at(i);
     deque<char> tmp2 = v->at(i);
-    
+
     v->at(i).push_front(')');
     v->at(i).push_front('(');
-    
+
     tmp1.push_front('(');
     tmp1.push_back(')');
-    
+
     v->push_back(tmp1);
-    
+
     if (i)
     {
       tmp2.push_back('(');
       tmp2.push_back(')');
-      
+
       v->push_back(tmp2);
     }
   }
-  
+
   return v;
 }
 
 void print_all_parentheses(size_t count)
 {
   vector<deque<char>> * v = print_all_parentheses_internal(count);
-  
+
   long size = v->size();
-  
+
   for (int i = 0; i < size; ++i)
   {
     deque<char>::iterator it = v->at(i).begin();
-    
+
     while (it != v->at(i).end()) cout << *it++;
-    
+
     cout << endl;
   }
-  
+
   delete v;
 }
 /*===================================================*/
@@ -5444,7 +5390,7 @@ int multiply(int a, int b, vector<int>& dp)
 		side2 = side1+bigger;
 	else
 	    side2 = side1;
-	
+
 	dp[smaller] = side2 +side1;
 	return side1+side2;
 }
@@ -5513,13 +5459,13 @@ int main()
 using namespace std;
 
 int findMagicUtil(vector<int> v, int start, int end){
-	
+
 	int n = v.size();
 
 	if (start<0  || end>=v.size()){		// index out of bounds
 		return -1;
 	}
-	
+
 	if (start>end){
 		return -1;	
 	}
@@ -5532,7 +5478,7 @@ int findMagicUtil(vector<int> v, int start, int end){
 		if (findMagicUtil(v,start,min(v[mid],mid))!=-1){
 			return findMagicUtil(v,start,min(v[mid],mid));
 		}
-		
+
 		return (findMagicUtil(v,max(v[mid],mid),end));
 	}
 }
@@ -5577,7 +5523,7 @@ int ways(int amount, vector<int> denom){
 	if (!amount){
 		return 1;
 	}
-	
+
 	int n = denom.size();
 	if(n==1){
 		if(amount%denom[0])
@@ -5671,14 +5617,13 @@ double getVolume(Histogram &histogram){
             volume += (end - j - 1) * height - barsVolume;
         }
     }
-    
+
     return volume;
 }
 
-
 int main(){
     Histogram histogram {0, 0, 4, 0, 0, 6, 0, 0, 3, 0, 8, 0, 2, 0, 5, 2, 0, 3, 0, 0};
-    
+
     std::cout << "The volume of the histogram is: " << getVolume(histogram) << 
         std::endl;
 }
