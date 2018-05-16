@@ -1,16 +1,3 @@
-/* 
-一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
-链接：https://www.nowcoder.com/questionTerminal/22243d016f6b47f2a6928b4313c85387
-（1）假定第一次跳的是一阶，那么剩下的是n-1个台阶，跳法是f(n-1)；假定第一次跳的是2阶，那么剩下的是n-2个台阶，跳法是f(n-2)；假定第一次跳的是3阶，那么剩下的是n-3个台阶，跳法是f(n-3)......假定第一次跳的是n-1阶，那么剩下的是1个台阶，跳法是f(1)； 假定第一次跳的是n阶，那么剩下的是0个台阶，跳法是1种；
-（2）总跳法为: f(n) = 1+f(n-1) + f(n-2)+....+f(1)  （第一个1是跳n阶只有一种方法）
-（3）根据（2）可以得出有一阶的时候 f(1) = 1 ；有两阶的时候可以有 f(2) = 1+f(1)=2；有三阶的时候可以有 f(3) = 1+f(2)+f(1)=4...依次内推，有n阶时f(n)=2^(n-1)。
-为了加快运算速度，可以通过向左移移位来完成乘以2的工作：
-*/
-int jumpFloorII(int number) {
-        //通过移位计算2的次方
-        return 1<<(number-1);        
-}
-
 /*
 501. Find Mode in Binary Search Tree
 
@@ -145,5 +132,32 @@ public:
             v.erase(v.begin() + idx);
         }
         return W;
+    }
+};
+/*
+Given a circular array (the next element of the last element is the first element of the array), print the Next Greater Number for every element. The Next Greater Number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, output -1 for this number.
+
+Example 1:
+Input: [1,2,1]
+Output: [2,-1,2]
+Explanation: The first 1's next greater number is 2; 
+The number 2 can't find next greater number; 
+The second 1's next greater number needs to search circularly, which is also 2.
+Note: The length of given array won't exceed 10000.
+*/
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> res(n, -1);
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < i + n; ++j) {
+                if (nums[j % n] > nums[i]) {
+                    res[i] = nums[j % n];
+                    break;
+                }
+            }
+        }
+        return res;
     }
 };
