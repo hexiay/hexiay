@@ -291,3 +291,57 @@ Output: True
 Explanation: 28 = 1 + 2 + 4 + 7 + 14
 Note: The input number n will not exceed 100,000,000. (1e8)
 */
+class Solution {
+public:
+    bool checkPerfectNumber(int num) {
+        if (num == 1) return false;
+        int sum = 1;
+        for (int i = 2; i * i <= num; ++i) {
+            if (num % i == 0) sum += (i + num / i);
+            if (i * i == num) sum -= i;
+            if (sum > num) return false;
+        }
+        return sum == num;
+    }
+};
+/*
+508. Most Frequent Subtree Sum
+Given the root of a tree, you are asked to find the most frequent subtree sum. The subtree sum of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself). So what is the most frequent subtree sum value? If there is a tie, return all the values with the highest frequency in any order.
+
+Examples 1
+Input:
+
+  5
+ /  \
+2   -3
+return [2, -3, 4], since all the values happen only once, return all of them in any order.
+Examples 2
+Input:
+
+  5
+ /  \
+2   -5
+return [2], since 2 happens twice, however -5 only occur once.
+Note: You may assume the sum of values in any subtree is in the range of 32-bit signed integer.
+*/
+class Solution {
+public:
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        vector<int> res;
+        unordered_map<int, int> m;
+        int cnt = 0;
+        postorder(root, m, cnt);
+        for (auto a : m) {
+            if (a.second == cnt) res.push_back(a.first);
+        }
+        return res;
+    }
+    int postorder(TreeNode* node, unordered_map<int, int>& m, int& cnt) {
+        if (!node) return 0;
+        int left = postorder(node->left, m, cnt);
+        int right = postorder(node->right, m, cnt);
+        int sum = left + right + node->val;
+        cnt = max(cnt, ++m[sum]);
+        return sum;
+    }
+};
