@@ -388,3 +388,72 @@ public:
         return res;
     }
 };
+/*
+514. Freedom Trail
+题目来自于辐射4这个游戏。有一个圆盘，圆盘上有几个英文字母，圆盘12点方向代表当前选中的字母，通过这个圆盘拼出一个和题目一样的字符串，求出最小的步数。
+圆盘可以顺时针或者逆时针旋转，每旋转一个字母代表1步，当12点方向是需要的英文字母时，按确定按钮，这个按也算一步。
+*/
+
+/*
+515. Find Largest Value in Each Tree Row
+You need to find the largest value in each row of a binary tree.
+*/
+class Solution {
+public:
+    vector<int> largestValues(TreeNode* root) {
+        if (!root) return {};
+        vector<int> res;
+        helper(root, 1, res);
+        return res;
+    }
+    void helper(TreeNode* root, int depth, vector<int>& res) {
+        if (depth > res.size()) res.push_back(root->val);
+        else res[depth - 1] = max(res[depth - 1], root->val);
+        if (root->left) helper(root->left, depth + 1, res);
+        if (root->right) helper(root->right, depth + 1, res);
+    }
+};
+/*
+516. Longest Palindromic Subsequence
+这道题给了我们一个字符串，让我们求最大的回文子序列，子序列和子字符串不同，不需要连续。而关于回文串的题之前也做了不少，处理方法上就是老老实实的两两比较吧。像这种有关极值的问题，最应该优先考虑的就是贪婪算法和动态规划，这道题显然使用DP更加合适。我们建立一个二维的DP数组，其中dp[i][j]表示[i,j]区间内的字符串的最长回文子序列，那么对于递推公式我们分析一下，如果s[i]==s[j]，那么i和j就可以增加2个回文串的长度，我们知道中间dp[i + 1][j - 1]的值，那么其加上2就是dp[i][j]的值。如果s[i] != s[j]，那么我们可以去掉i或j其中的一个字符，然后比较两种情况下所剩的字符串谁dp值大，就赋给dp[i][j]，那么递推公式如下：
+              /  dp[i + 1][j - 1] + 2, if (s[i] == s[j])
+dp[i][j] =
+              \  max(dp[i + 1][j], dp[i][j - 1]), if (s[i] != s[j])
+*/
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        int n = s.size();
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (int i = n - 1; i >= 0; --i) {
+            dp[i][i] = 1;
+            for (int j = i + 1; j < n; ++j) {
+                if (s[i] == s[j]) {
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                } else {
+                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[0][n - 1];
+    }
+};
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        int n = s.size(), res = 0;
+        vector<int> dp(n, 1);
+        for (int i = n - 1; i >= 0; --i) {
+            int len = 0;
+            for (int j = i + 1; j < n; ++j) {
+                int t = dp[j];
+                if (s[i] == s[j]) {
+                    dp[j] = len + 2;
+                } 
+                len = max(len, t);
+            }
+        }
+        for (int num : dp) res = max(res, num);
+        return res;
+    }
+};
