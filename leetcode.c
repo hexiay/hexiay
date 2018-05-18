@@ -415,10 +415,12 @@ public:
 };
 /*
 516. Longest Palindromic Subsequence
-这道题给了我们一个字符串，让我们求最大的回文子序列，子序列和子字符串不同，不需要连续。而关于回文串的题之前也做了不少，处理方法上就是老老实实的两两比较吧。像这种有关极值的问题，最应该优先考虑的就是贪婪算法和动态规划，这道题显然使用DP更加合适。我们建立一个二维的DP数组，其中dp[i][j]表示[i,j]区间内的字符串的最长回文子序列，那么对于递推公式我们分析一下，如果s[i]==s[j]，那么i和j就可以增加2个回文串的长度，我们知道中间dp[i + 1][j - 1]的值，那么其加上2就是dp[i][j]的值。如果s[i] != s[j]，那么我们可以去掉i或j其中的一个字符，然后比较两种情况下所剩的字符串谁dp值大，就赋给dp[i][j]，那么递推公式如下：
-              /  dp[i + 1][j - 1] + 2, if (s[i] == s[j])
-dp[i][j] =
-              \  max(dp[i + 1][j], dp[i][j - 1]), if (s[i] != s[j])
+设字符串为str，长度为n，p[i][j]表示第i到第j个字符间的子序列的个数（i<=j），则：
+状态初始条件：dp[i][i]=1 （i=0：n-1）
+状态转移方程：dp[i][j]=dp[i+1][j-1] + 2  if（str[i]==str[j]）
+          dp[i][j]=max(dp[i+1][j],dp[i][j-1])  if （str[i]!=str[j]）
+以下代码中的两层循环变量i,j的顺序可以改变，但必须满足i<=j的条件。
+计算dp[i][j]时需要计算dp[i+1][*]或dp[*][j-1]，因此i应该从大到小，即递减；j应该从小到大，即递增。
 */
 class Solution {
 public:
@@ -457,3 +459,102 @@ public:
         return res;
     }
 };
+/*
+回文子序列个数
+要求：
+给定字符串，求它的回文子序列个数。回文子序列反转字符顺序后仍然与原序列相同。例如字符串aba中，回文子序列为"a", "a", "aa", "b", "aba"，共5个。内容相同位置不同的子序列算不同的子序列。
+思路：
+动态规划思想
+对于任意字符串，如果头尾字符不相等，则字符串的回文子序列个数就等于去掉头的字符串的回文子序列个数+去掉尾的字符串的回文子序列个数-去掉头尾的字符串的回文子序列个数；如果头尾字符相等，那么除了上述的子序列个数之外，还要加上首尾相等时新增的子序列个数，1+去掉头尾的字符串的回文子序列个数，1指的是加上头尾组成的回文子序列，如aa，bb等。
+因此动态规划的状态转移方程为：
+设字符串为str，长度为n，p[i][j]表示第i到第j个字符间的最长子序列的长度（i<=j），则：
+状态初始条件：dp[i][i]=1 （i=0：n-1）
+状态转移方程：dp[i][j]=dp[i+1][j] + dp[i][j-1] - dp[i+1][j-1]  if（str[i]！=str[j]）
+           dp[i][j]=dp[i+1][j] + dp[i][j-1] - dp[i+1][j-1]+dp[i+1][j-1]+1=dp[i+1][j] + dp[i][j-1]+1  if （str[i]==str[j]）
+*/
+int NumOfPalindromeSubSequence(string str){
+    int len=str.length();
+    vector<vector<int> > dp(len,vector<int>(len));
+
+    for(int j=0;j<len;j++){
+        dp[j][j]=1;
+        for(int i=j-1;i>=0;i--){
+            dp[i][j]=dp[i+1][j]+dp[i][j-1]-dp[i+1][j-1];
+            if(str[i]==str[j])
+                dp[i][j]+=1+dp[i+1][j-1];
+        }
+    }
+    return dp[0][len-1];
+}
+/*
+517. Super Washing Machines
+You have n super washing machines on a line. Initially, each washing machine has some dresses or is empty.
+For each move, you could choose any m (1 ≤ m ≤ n) washing machines, and pass one dress of each washing machine to one of its adjacent washing machines at the same time .
+Given an integer array representing the number of dresses in each washing machine from left to right on the line, you should find the minimum number of moves to make all the washing machines have the same number of dresses. If it is not possible to do it, return -1.
+Example1
+Input: [1,0,5]
+Output: 3
+Explanation: 
+1st move:    1     0 <-- 5    =>    1     1     4
+2nd move:    1 <-- 1 <-- 4    =>    2     1     3    
+3rd move:    2     1 <-- 3    =>    2     2     2  
+First we check the sum of dresses in all machines. if that number cannot be divided by count of machines, there is no solution.
+
+Otherwise, we can always transfer a dress from one machine to another, one at a time until every machines reach the same number, so there must be a solution. In this way, the total actions is sum of operations on every machine.
+
+Since we can operate several machines at the same time, the minium number of moves is the maximum number of necessary operations on every machine.
+
+For a single machine, necessary operations is to transfer dresses from one side to another until sum of both sides and itself reaches the average number. We can calculate (required dresses) - (contained dresses) of each side as L and R:
+
+L > 0 && R > 0: both sides lacks dresses, and we can only export one dress from current machines at a time, so result is abs(L) + abs(R)
+L < 0 && R < 0: both sides contains too many dresses, and we can import dresses from both sides at the same time, so result is max(abs(L), abs(R))
+L < 0 && R > 0 or L >0 && R < 0: the side with a larger absolute value will import/export its extra dresses from/to current machine or other side, so result is max(abs(L), abs(R))
+
+For example, [1, 0, 5], average is 2
+for 1, L = 0 * 2 - 0 = 0, R = 2 * 2 - 5= -1, result = 1
+for 0, L = 1 * 2 - 1= 1, R = 1 * 2 - 5 = -3, result = 3
+for 5, L = 2 * 2 - 1= 3, R = 0 * 2 - 0= 0, result = 3
+so minium moves is 3
+这个test case [0, 0, 11, 5]，最终每个洗衣机会留4件衣服，正确答案是8。
+*/
+public:
+    int findMinMoves(vector<int>& machines) {
+        int len = machines.size();
+        vector<int> sum(len + 1, 0);
+        for (int i = 0; i < len; ++i)
+            sum[i + 1] = sum[i] + machines[i];
+
+        if (sum[len] % len) return -1;
+
+        int avg = sum[len] / len;
+        int res = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            int l = i * avg - sum[i];
+            int r = (len - i - 1) * avg - (sum[len] - sum[i] - machines[i]);
+
+            if (l > 0 && r > 0)
+                res = std::max(res, std::abs(l) + std::abs(r));
+            else
+                res = std::max(res, std::max(std::abs(l), std::abs(r)));
+        }
+        return res;
+    }
+};
+/*
+518. Coin Change 2
+You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. You may assume that you have infinite number of each kind of coin.
+Note: You can assume that
+0 <= amount <= 5000
+1 <= coin <= 5000
+the number of coins is less than 500
+the answer is guaranteed to fit into signed 32-bit integer
+Example 1:
+Input: amount = 5, coins = [1, 2, 5]
+Output: 4
+Explanation: there are four ways to make up the amount:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+*/
