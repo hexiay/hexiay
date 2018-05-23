@@ -355,6 +355,43 @@ Input:
 ]
 Output: 6
 ==================================================================== */
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        if (matrix.empty() || matrix[0].empty())
+            return 0;
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int rs = 0;
+        vector<int> dp(n, 0);
+        for (int i = 0 ; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (matrix[i][j] == '0') {
+                    dp[j] = 0;
+                } else {
+                    dp[j] += 1;
+                }
+            }
+            rs = max(rs, maximalSize(dp));
+        }
+        return rs;
+    }
+    int maximalSize(vector<int> heights) {
+        heights.push_back(0);
+        int n = heights.size();
+        int rs = 0;
+        stack<int> stk;
+        
+        for (int i = 0; i < n; ++i) {
+            while (!stk.empty() && heights[i] <= heights[stk.top()]) {
+                int t = stk.top(); stk.pop();
+                rs = max(rs, heights[t] * (stk.empty() ? i : ((i-1) - (stk.top()+1) + 1)));
+            }
+            stk.push(i);
+        }
+        return rs;
+    }
+};
 /* =================================================================
 ==================================================================== */
 /* =================================================================
