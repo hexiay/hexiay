@@ -319,8 +319,41 @@ public:
     }
 };
 /* =================================================================
+84. Largest Rectangle in Histogram
+Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.
+ Above is a histogram where width of each bar is 1, given height = [2,1,5,6,2,3].
+  The largest rectangle is shown in the shaded area, which has area = 10 unit.
 ==================================================================== */
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        stack<int> stk;   // Monotone increasing stack
+        heights.push_back(0);
+        int res = 0;
+        
+        int n = heights.size();
+        for (int i = 0; i < n; ++i) {
+            while (!stk.empty() && heights[i] <= heights[stk.top()]) {
+                int t = stk.top(); stk.pop();
+                res = max(res, heights[t] * (stk.empty() ? ((i-1) - (0) + 1) : ((i-1) - (stk.top()+1) + 1)));
+            }
+            stk.push(i);
+        }
+        return res;
+    }
+};
 /* =================================================================
+85. Maximal Rectangle
+Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+Example:
+Input:
+[
+  ["1","0","1","0","0"],
+  ["1","0","1","1","1"],
+  ["1","1","1","1","1"],
+  ["1","0","0","1","0"]
+]
+Output: 6
 ==================================================================== */
 /* =================================================================
 ==================================================================== */
