@@ -460,7 +460,41 @@ public:
     }
 };
 /* =================================================================
+91. Decode Ways
+A message containing letters from A-Z is being encoded to numbers using the following mapping:
+'A' -> 1
+'B' -> 2
+...
+'Z' -> 26
+Given a non-empty string containing only digits, determine the total number of ways to decode it.
+Input: "12"
+Output: 2
+Explanation: It could be decoded as "AB" (1 2) or "L" (12).
+跟之前那道 Climbing Stairs 爬梯子问题 非常的相似，但是还有一些其他的限制条件，比如说一位数时不能为0，两位数不能大于26，其十位上的数也不能为0，出去这些限制条件，根爬梯子基本没啥区别，也勉强算特殊的斐波那契数列，当然需要用动态规划Dynamci Programming来解。建立一位dp数组，长度比输入数组长多多2，全部初始化为1，因为斐波那契数列的前两项也为1，然后从第三个数开始更新，对应数组的第一个数。对每个数组首先判断其是否为0，若是将改为dp赋0，若不是，赋上一个dp值，此时相当如加上了dp[i - 1], 然后看数组前一位是否存在，如果存在且满足前一位不是0，且和当前为一起组成的两位数不大于26，则当前dp值加上dp[i - 2], 至此可以看出来跟斐波那契数组的递推式一样，代码如下：
 ==================================================================== */
+class Solution {
+public:
+    int numDecodings(string s) {
+        if (s.empty() || s.at(0) == '0')
+            return 0;
+        int n = s.size();
+        vector<int> dp(n+1, 0);
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i < n+1; ++i) {
+            // one step to index i
+            if (s.at(i-1) > '0' && s.at(i-1) <= '9') {
+                dp[i] += dp[i-1];
+            }
+            // two steps to index i
+            if ((s.at(i-2) == '1' && s.at(i-1) >= '0' && s.at(i-1) <= '9') || 
+                (s.at(i-2) == '2' && s.at(i-1) >= '0' && s.at(i-1) <= '6')) {
+                dp[i] += dp[i-2];
+            }
+        }
+        return dp[n];
+    }
+};
 /* =================================================================
 ==================================================================== */
 /* =================================================================
