@@ -534,37 +534,31 @@ public:
     }
 };
 /* =================================================================
-Definition for a binary tree node.
-
+449. Serialize and Deserialize BST
 struct TreeNode {
      int val;
      TreeNode *left;
      TreeNode *right;
      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
-
 [1,2,3,null,null,4,5]
     1
    / \
   2   3
      / \
     4   5
-
 []
     Empty tree. The root is a reference to NULL (C/C++), null (Java/C#/Javascript), None (Python), or nil (Ruby).
-
 [1,2,3]
            1
           / \
          2   3
-
 [1,null,2,3]
            1
             \
              2
             /
            3
-
 [5,4,7,3,null,2,null,-1,null,9]
            5
           / \
@@ -573,7 +567,6 @@ struct TreeNode {
        3   2
       /   /
      -1  9
-
 [
   [1,null,3,2],
   [3,2,null,1],
@@ -585,12 +578,148 @@ struct TreeNode {
     \       /     /      / \      \
      3     2     1      1   3      2
     /     /       \                 \
-   2     1         2                 3     
+   2     1         2                 3
 ==================================================================== */
+class Codec {
+public:
+    static constexpr char* NullNodeString      = "null";
+    static constexpr char* NodeSeparator       = ",";
+  
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string res;
+        
+        deque<TreeNode*> nodes;
+        nodes.push_back(root);
+        while (!nodes.empty()) {
+            TreeNode *p = nodes.front();
+            nodes.pop_front();
+            if (p) {
+                if (!res.empty())
+                    res += NodeSeparator;
+                res += to_string(p->val);
+                nodes.push_back(p->left);
+                nodes.push_back(p->right);
+            } else {
+                if (!res.empty())
+                    res += NodeSeparator;
+                res += string(NullNodeString);
+            }
+        }
+        return res;
+    }
+    
+    // Decodes your encoded data to tree.
+    //  1,null,2,null,3
+    //  1,#,2,#,3
+    TreeNode* deserialize(string data) {        
+        vector<TreeNode*> vec;
+        char * pch = NULL;
+  
+        pch = strtok (const_cast<char*>(data.c_str()), NodeSeparator);
+        while (pch != NULL) {
+            if (strncmp(NullNodeString, pch, strlen(NullNodeString)) == 0) {
+                vec.push_back(NULL);
+            } else {
+                TreeNode *node = new TreeNode(atoi(pch));
+                vec.push_back(node);
+            }
+            pch = strtok (NULL, NodeSeparator);
+        }
 
-
+        int n = vec.size();
+        if (n == 0)
+            return NULL;
+        TreeNode *root = vec[0];
+        int i = 0;
+        for (int k = 1; k < n; ) {
+            if (vec[i]) {
+                vec[i]->left = vec[k++];
+                if (k < n)
+                    vec[i]->right = vec[k++];
+            }
+            ++i;
+        }
+        return root;
+    }
+};
 /* =================================================================
+95. Unique Binary Search Trees II
+Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
+Input: 3
+Output:
+[
+  [1,null,3,2],
+  [3,2,null,1],
+  [3,1,null,null,2],
+  [2,1,3],
+  [1,null,2,null,3]
+]
+Explanation:
+The above output corresponds to the 5 unique BST's shown below:
+
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
 ==================================================================== */
+class Solution {
+public:
+    
+    vector<TreeNode*> generateTrees(int n) {
+        if (n <= 0)
+            return vector<TreeNode*>();
+        return generateTrees(1, n);   
+    }
+    
+    vector<TreeNode*> generateTrees(int start, int end) {
+        vector<TreeNode*> subtree;
+        if (start > end) {
+            subtree.push_back(NULL);
+            return subtree;
+        }        
+        for (int i = start; i <= end; ++i) {
+            vector<TreeNode*> left = generateTrees(start, i-1);
+            vector<TreeNode*> right = generateTrees(i+1, end);
+            for (int m = 0; m < left.size(); ++m) {
+                for(int n = 0; n < right.size(); ++n) {
+                    TreeNode* root = new TreeNode(i);
+                    root->left = left[m];
+                    root->right = right[n];
+                    subtree.push_back(root);
+                }
+            }
+        }
+        return subtree;
+    }
+};
+class Solution {
+public:
+    vector<TreeNode *> generateTrees(int n) {
+        if (n == 0) return {};
+        return *generateTreesDFS(1, n);
+    }
+    vector<TreeNode*> *generateTreesDFS(int start, int end) {
+        vector<TreeNode*> *subTree = new vector<TreeNode*>();
+        if (start > end) subTree->push_back(NULL);
+        else {
+            for (int i = start; i <= end; ++i) {
+                vector<TreeNode*> *leftSubTree = generateTreesDFS(start, i - 1);
+                vector<TreeNode*> *rightSubTree = generateTreesDFS(i + 1, end);
+                for (int j = 0; j < leftSubTree->size(); ++j) {
+                    for (int k = 0; k < rightSubTree->size(); ++k) {
+                        TreeNode *node = new TreeNode(i);
+                        node->left = (*leftSubTree)[j];
+                        node->right = (*rightSubTree)[k];
+                        subTree->push_back(node);
+                    }
+                }
+            }
+        }
+        return subTree;
+    }
+};
 /* =================================================================
 ==================================================================== */
 /* =================================================================
