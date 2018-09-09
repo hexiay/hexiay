@@ -189,4 +189,15 @@ bool is_pointer(const T&)
 {
     return is_pointer_type<T>::value;
 }
+
+template<typename A, typename B>
+struct m_is_same {
+    static const bool value = false;
+};
+
+template<typename A>
+struct m_is_same<A, A> {
+    static const bool value = true;
+};
+
 ```
